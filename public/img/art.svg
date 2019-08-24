@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="1920" height="1080" viewBox="0 0 1920 1080">
+  <defs>
+    <linearGradient id="linear-gradient" y1="0.411" x2="0.944" y2="0.842" gradientUnits="objectBoundingBox">
+      <stop offset="0" stop-color="#2575fc"/>
+      <stop offset="1" stop-color="#6a11cb"/>
+    </linearGradient>
+    <filter id="ir1" x="-166.006" y="-160.225" width="1400.685" height="1278.494" filterUnits="userSpaceOnUse">
+      <feOffset dy="6" input="SourceAlpha"/>
+      <feGaussianBlur stdDeviation="5" result="blur"/>
+      <feFlood flood-opacity="0.161"/>
+      <feComposite operator="in" in2="blur"/>
+      <feComposite in="SourceGraphic"/>
+    </filter>
+    <filter id="ir2" x="-160.006" y="-141.225" width="1388.685" height="1266.494" filterUnits="userSpaceOnUse">
+      <feOffset dy="5" input="SourceAlpha"/>
+      <feGaussianBlur stdDeviation="3" result="blur-2"/>
+      <feFlood flood-opacity="0.161"/>
+      <feComposite operator="in" in2="blur-2"/>
+      <feComposite in="SourceGraphic"/>
+    </filter>
+    <clipPath id="clip-Web_1920_1">
+      <rect width="1920" height="1080"/>
+    </clipPath>
+  </defs>
+  <g id="Web_1920_1" data-name="Web 1920 – 1" clip-path="url(#clip-Web_1920_1)">
+    <rect width="1920" height="1080" fill="#fff"/>
+    <g id="Irregular_Art" data-name="Irregular Art">
+      <g transform="matrix(1, 0, 0, 1, 0, 0)" filter="url(#ir1)">
+        <path id="ir1-2" data-name="ir1" d="M471.474,52.775c-169.611,0-299.354,58.76-386.742,161.29C-3.622,317.726-48.94,465.866-48.94,643.437c0,211.88-18.762,498.524,133.671,614.946,102.408,78.215,346.442,25.532,483.019,25.532,340.589,0,753.262-10.079,753.262-363.806,0-157.407-9.708-252.534-100.8-364.527C1107.484,416.976,660.5,52.775,471.474,52.775Z" transform="translate(-101.33 -204)" opacity="0.995" fill="url(#linear-gradient)"/>
+      </g>
+      <g transform="matrix(1, 0, 0, 1, 0, 0)" filter="url(#ir2)">
+        <path id="ir2-2" data-name="ir2" d="M471.474,52.775c-169.611,0-299.354,58.76-386.742,161.29C-3.622,317.726-48.94,465.866-48.94,643.437c0,211.88-18.762,498.524,133.671,614.946,102.408,78.215,346.442,25.532,483.019,25.532,340.589,0,753.262-10.079,753.262-363.806,0-157.407-9.708-252.534-100.8-364.527C1107.484,416.976,660.5,52.775,471.474,52.775Z" transform="translate(-101.33 -190)" opacity="0.332" fill="url(#linear-gradient)"/>
+      </g>
+    </g>
+  </g>
+</svg>
