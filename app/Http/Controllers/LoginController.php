@@ -11,7 +11,7 @@ class LoginController extends Controller
 {
   public function __construct()
   {
-    $this->middleware('guest');
+    $this->middleware('guest')->except('logout');
   }
   public function get()
   {
@@ -27,5 +27,11 @@ class LoginController extends Controller
     $user->save();
     Auth::login($user);
     return redirect()->route('lobby');
+  }
+
+  public function logout()
+  {
+    Auth::logout();
+    return redirect('/login');
   }
 }

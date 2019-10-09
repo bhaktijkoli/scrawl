@@ -7,11 +7,11 @@
 @section('content')
   <div class="app-intro">
     <div class="container">
-      <div class="row">
-        <div class="col-6">
+    <div class="row">
+        <div class="col-sm-6">
           <img src="/img/artboard_drawing.svg" class="artboard"/>
         </div>
-        <div class="col-4 offset-2">
+        <div class="col-sm-4 col-sm-offset-2">
           <div class="app-intro-text">
             <h1 class="app-title">SCRAWL</h1>
             <p class="app-subtitle">Free Online Multiplayer Pictionary Game</p>

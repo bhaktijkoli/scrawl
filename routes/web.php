@@ -12,6 +12,7 @@
 */
 
 Route::get('/', 'HomeController@get')->name('home');
+Route::get('/logout', 'LoginController@logout')->name('logout');
 Route::get('/login', 'LoginController@get')->name('login');
 Route::post('/login', 'LoginController@post');
 Route::get('/lobby', 'LobbyController@index')->name('lobby');
