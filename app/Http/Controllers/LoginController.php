@@ -26,6 +26,6 @@ class LoginController extends Controller
     $user->name = $request->input('nickname');
     $user->save();
     Auth::login($user);
-    return redirect()->route('find');
+    return redirect()->route('lobby');
   }
 }
