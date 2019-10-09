@@ -8,7 +8,9 @@
           </a>
           <a class="menu-item" href="{{route('lobby')}}" class="active">Lobby</a>
           <div class="dropdown pull-right">
-            <button class="dropbtn">{{Auth::user()->name}}
+            <button class="dropbtn">
+              <img style="vertical-align:middle; margin-right:5px" src="{{Auth::user()->avatar}}" width="32"/>
+              {{Auth::user()->name}}
               <i class="fa fa-caret-down"></i>
             </button>
             <div class="dropdown-content">

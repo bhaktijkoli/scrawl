@@ -16,6 +16,7 @@ class CreateUsersTable extends Migration
     Schema::create('users', function (Blueprint $table) {
       $table->bigIncrements('id');
       $table->string('name');
+      $table->string('avatar')->default('/img/avatar.svg');
       $table->string('google')->nullable();
       $table->string('facebook')->nullable();
       $table->enum('guest', ['0', '1'])->default('1');
