@@ -23,14 +23,14 @@
         <div class="seprator">
           Or
         </div>
-        <a href="#" class="fb social-btn">
+        <a href="{{route('social.login', 'facebook')}}" class="fb social-btn">
           <i class="fa fa-facebook fa-fw"></i> Login with Facebook
         </a>
-        <a href="#" class="twitter social-btn">
+        <a href="{{route('social.login', 'twitter')}}" class="twitter social-btn">
           <i class="fa fa-twitter fa-fw"></i> Login with Twitter
         </a>
-        <a href="#" class="google social-btn">
-          <i class="fa fa-google fa-fw"></i> Login with Google+
+        <a href="{{route('social.login', 'google')}}" class="google social-btn">
+          <i class="fa fa-google fa-fw"></i> Login with Google
         </a>
       </div>
     </div>

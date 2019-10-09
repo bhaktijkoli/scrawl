@@ -14,5 +14,7 @@
 Route::get('/', 'HomeController@get')->name('home');
 Route::get('/logout', 'LoginController@logout')->name('logout');
 Route::get('/login', 'LoginController@get')->name('login');
+Route::get('/social/login/{provider}', 'SociaLoginlController@redirectToProvider')->name('social.login');
+Route::get('/social/login/{provider}/callback', 'SociaLoginlController@handleProviderCallback');
 Route::post('/login', 'LoginController@post');
 Route::get('/lobby', 'LobbyController@index')->name('lobby');

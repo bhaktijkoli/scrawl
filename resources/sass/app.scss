@@ -33,9 +33,17 @@ body {
   background-color: #fff;
 }
 
+.container {
+  margin: auto;
+}
+
 .center {
   text-align: center;
+}
+.pull-right {
+  float: right !important;
 }
 
 @import "home";
 @import "login";
+@import "appbar";

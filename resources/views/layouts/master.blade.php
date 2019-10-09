@@ -17,6 +17,7 @@
   <link rel="stylesheet" type="text/css" href="{{ asset('css/font-awesome.min.css') }}">
 </head>
 <body class="bg">
+  @include('layouts.nav')
   @yield('content')
   <script type="text/javascript" src="{{ asset('js/app.js') }}"></script>
   @yield('post')
