@@ -17,6 +17,6 @@ class GameController extends Controller
   public function index($code)
   {
     $lobby = Lobby::where('code', $code)->first();
-    return $lobby;
+    return view('game.index')->with(['lobby'=>$lobby]);
   }
 }

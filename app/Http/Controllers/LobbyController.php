@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\Lobby;
+use App\LobbyPlayer;
 use Auth;
 
 class LobbyController extends Controller
@@ -33,6 +34,10 @@ class LobbyController extends Controller
     $lobby->private = '1';
     $lobby->user_id = Auth::user()->id;
     $lobby->save();
+    $player = new LobbyPlayer();
+    $player->user_id = Auth::user()->id;
+    $player->lobby_id = $lobby->id;
+    $player->save();
     return redirect()->route('game.index', $lobby->code);
   }
 

@@ -371,3 +371,21 @@ body {
   margin-top: 20px;
 }
 
+.players-list {
+  padding-left: 0px;
+  list-style: none;
+}
+
+.players-list li img {
+  display: inline-block;
+  vertical-align: middle;
+  width: 42px;
+}
+
+.players-list li p {
+  margin-left: 10px;
+  display: inline-block;
+  vertical-align: super;
+  font-size: 1rem;
+}
+

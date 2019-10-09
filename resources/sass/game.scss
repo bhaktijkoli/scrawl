@@ -1,0 +1,15 @@
+.players-list {
+  padding-left: 0px;
+  list-style: none;
+  li img {
+    display: inline-block;
+    vertical-align: middle;
+    width: 42px;
+  }
+  li p {
+    margin-left: 10px;
+    display: inline-block;
+    vertical-align: super;
+    font-size: 1rem;
+  }
+}
