@@ -45,6 +45,10 @@
   border: 1px solid $primary;
 }
 
+.form-control {
+  margin-bottom: 20px;
+}
+
 .btn {
   margin: 10px 5px;
   padding: 8px 15px;
@@ -56,6 +60,7 @@
   cursor: pointer;
   transition: 300ms all;
   text-transform: uppercase;
+  text-decoration: none;
 }
 .btn small {
   font-size: 0.8rem;
@@ -64,7 +69,13 @@
   background: darken($primary, 10%);
   border: none;
 }
-
+.btn-green {
+  background: #2ecc71;
+}
+.btn-green:hover, .btn-green:focus, .btn-green:active {
+  background: darken(#2ecc71, 10%);
+  border: none;
+}
 .social-btn {
   text-align: center;
   width: 100%;

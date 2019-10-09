@@ -160,6 +160,10 @@ body {
   border: 1px solid #3498db;
 }
 
+.form-control {
+  margin-bottom: 20px;
+}
+
 .btn {
   margin: 10px 5px;
   padding: 8px 15px;
@@ -171,6 +175,7 @@ body {
   cursor: pointer;
   transition: 300ms all;
   text-transform: uppercase;
+  text-decoration: none;
 }
 
 .btn small {
@@ -181,6 +186,17 @@ body {
 .btn:focus,
 .btn:active {
   background: #217dbb;
+  border: none;
+}
+
+.btn-green {
+  background: #2ecc71;
+}
+
+.btn-green:hover,
+.btn-green:focus,
+.btn-green:active {
+  background: #25a25a;
   border: none;
 }
 
@@ -334,5 +350,24 @@ body {
     width: 100%;
     text-align: left;
   }
+}
+
+.panel {
+  width: auto;
+  min-height: 100px;
+  padding: 10px 20px;
+  background: #FFF;
+  border-radius: 4px;
+  margin-bottom: 50px;
+}
+
+.panel-title {
+  font-size: 1.5rem;
+  text-transform: uppercase;
+}
+
+.panel-body {
+  font-size: 1rem;
+  margin-top: 20px;
 }
 

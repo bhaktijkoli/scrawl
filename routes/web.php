@@ -18,3 +18,6 @@ Route::get('/social/login/{provider}', 'SociaLoginlController@redirectToProvider
 Route::get('/social/login/{provider}/callback', 'SociaLoginlController@handleProviderCallback');
 Route::post('/login', 'LoginController@post');
 Route::get('/lobby', 'LobbyController@index')->name('lobby');
+Route::get('/lobby/new', 'LobbyController@new')->name('lobby.new');
+Route::post('/lobby/new', 'LobbyController@newPost')->name('lobby.new.post');
+Route::get('/lobby/{code}', 'GameController@index')->name('game.index');
