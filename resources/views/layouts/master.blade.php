@@ -13,6 +13,7 @@
   <title>{{ $title }}</title>
   <link rel="icon" href="{{url('favicon.ico')}}" type="image/ico" sizes="16x16">
   <link rel="stylesheet" type="text/css" href="{{ asset('css/app.css') }}">
+  <link rel="stylesheet" type="text/css" href="{{ asset('css/font-awesome.min.css') }}">
 </head>
 <body class="bg">
   @yield('content')

@@ -11,5 +11,7 @@
 |
 */
 
-Route::get('/', 'HomeController@get');
-Route::get('/login', 'LoginController@get');
+Route::get('/', 'HomeController@get')->name('home');
+Route::get('/login', 'LoginController@get')->name('login');
+Route::post('/login', 'LoginController@post');
+Route::get('/find', 'HomeController@get')->name('find');

@@ -1,4 +1,5 @@
 .app-intro {
+  color: #000;
   width: 100%;
   min-height: 100vh;
 }
@@ -25,8 +26,21 @@
   font-size: 1.2rem;
 }
 
-.app-intro .artboard {
-
+.app-intro .btn-intro {
+  display: inline-block;
+  font-weight: 400;
+  color: #000;
+  background-color: #ffffff;
+  border-color: #adb5bd;
+  text-align: center;
+  vertical-align: middle;
+  user-select: none;
+  padding: 0.5rem 1.1rem;
+  font-size: 1.2rem;
+  line-height: 1.5;
+  text-decoration: none;
+  border-radius: 0.25rem;
+  transition: all 0.15s ease-in-out;
 }
 
 .art {
