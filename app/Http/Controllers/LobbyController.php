@@ -20,6 +20,24 @@ class LobbyController extends Controller
     return view('lobby.index');
   }
 
+  public function postIndex(Request $request)
+  {
+    $code = $request->input('code', '');
+    $lobby = Lobby::where('code', $code)->first();
+    if($lobby) {
+      $player = LobbyPlayer::where('user_id', Auth::user()->id)->where('lobby_id', $lobby->id)->first();
+      if(!$player) {
+        $player = new LobbyPlayer();
+        $player->user_id = Auth::user()->id;
+        $player->lobby_id = $lobby->id;
+        $player->save();
+        event(new \App\Events\NewPlayer($lobby, Auth::user()));
+      }
+      return redirect()->route('game.index', $code);
+    }
+    return view('lobby.index');
+  }
+
   public function new()
   {
     return view('lobby.new');

@@ -5,7 +5,7 @@
 @endphp
 @endsection
 @section('content')
-  <div class="container-fluid">
+  <div id="game" class="container-fluid" data-code="{{$lobby->code}}">
     <div class="row" style="margin-top:130px;">
       <div class="col-sm-3">
         <div class="panel">
@@ -40,4 +40,5 @@
 
 @endsection
 @section('post')
+  <script type="text/javascript" src="/js/game.js"></script>
 @endsection

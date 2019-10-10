@@ -18,8 +18,9 @@
             Private Lobby
           </div>
           <div class="panel-body">
-            <form>
-              <input type="text" name="private_key" class="input" placeholder="Enter private lobby key here">
+            <form action="{{route('lobby')}}" method="post">
+              @csrf
+              <input type="text" name="code" class="input" placeholder="Enter private lobby key here">
               <button type="submit" name="private_lobby" class="btn">Join Lobby</button>
               <a href="{{route('lobby.new')}}" class="btn btn-green"><i class="fa fa-plus" aria-hidden="true"></i>&nbsp;&nbsp;Create Lobby</a>
             </form>
