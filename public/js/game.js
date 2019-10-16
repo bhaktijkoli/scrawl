@@ -103,8 +103,25 @@ window.Echo.channel("".concat(code, ".new-player")).listen('NewPlayer', function
 });
 axios.get('/api/game/' + code).then(function (res) {
   lobby = res.data.data;
-  $('.player-count').text("".concat(lobby.players.length, "/5"));
+  updateGameStatus();
 });
+
+window.updateGameStatus = function () {
+  $('.player-count').text("".concat(lobby.players.length, "/5"));
+
+  if (lobby.status == 0) {
+    $('.game-main').html("\n      <div class=\"invite center\">\n      <p>Invite your friends</p>\n      <p class=\"code\">".concat(lobby.code, "</p>\n      <button class=\"btn\" onclick=\"startGame()\">Start Game</button>\n      </div>\n      "));
+  } else {
+    $('.game-main').html("\n      <div class=\"panel-title\">\n      <span class=\"game-time\"><i class=\"fa fa-clock-o\">&nbsp;".concat(lobby.time, "</i></span>\n      <span class=\"game-round\">Round ").concat(lobby.status, "/3</i></span>\n      </div>\n      <div class=\"panel-body game-main\">\n\n      </div>\n      "));
+  }
+};
+
+window.startGame = function () {
+  axios.post('/api/game/' + lobby.code + '/start').then(function (res) {
+    lobby.status = 1;
+    updateGameStatus();
+  });
+};
 
 /***/ }),
 

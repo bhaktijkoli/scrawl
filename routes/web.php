@@ -26,4 +26,5 @@ Route::get('/lobby/{code}', 'GameController@index')->name('game.index');
 // API
 Route::prefix('api')->group(function () {
     Route::get('game/{code}', 'GameApiController@get');
+    Route::post('game/{code}/start', 'GameApiController@start');
 });

@@ -18,6 +18,7 @@ class CreateLobbiesTable extends Migration
       $table->string('name')->nullable();
       $table->string('code')->nullable();
       $table->integer('rounds')->nullable();
+      $table->integer('status')->default(0);
       $table->integer('time')->nullable();
       $table->enum('private', ['0', '1'])->default('0');
       $table->unsignedInteger('user_id')->nullable();

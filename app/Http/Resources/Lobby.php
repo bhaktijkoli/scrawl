@@ -20,6 +20,7 @@ class Lobby extends JsonResource
       'private' => $this->private,
       'rounds' => $this->rounds,
       'time' => $this->time,
+      'status' => $this->status,
       'players' => $this->players,
     ];
   }

@@ -14,4 +14,11 @@ class GameApiController extends Controller
     $lobby = Lobby::where('code', $code)->first();
     return new LobbyResource($lobby);
   }
+  public function start($code)
+  {
+    $lobby = Lobby::where('code', $code)->first();
+    $lobby->status = 1;
+    $lobby->save();
+    return new LobbyResource($lobby);
+  }
 }

@@ -17,6 +17,12 @@
 .player-count {
   float: right;
 }
+.game-time {
+
+}
+.game-round {
+  float: right;
+}
 
 .game-panel {
   min-height: 550px;
@@ -24,7 +30,7 @@
 
 .invite {
   .code {
-    font-size: 1.5rem;
+    font-size: 2rem;
     font-weight: bold;
   }
 }

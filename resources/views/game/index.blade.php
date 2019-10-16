@@ -26,11 +26,14 @@
         </div>
       </div>
       <div class="col-sm-6">
-        <div class="panel game-panel">
-          <div class="invite center">
-            <p>Invite your friends</p>
-            <p class="code">{{$lobby->code}}</p>
+        <div class="panel game-panel game-main">
+          {{-- <div class="panel-title">
+            <span class="game-time"><i class="fa fa-clock-o">&nbsp;80</i></span>
+            <span class="game-round">Round 1/3</i></span>
           </div>
+          <div class="panel-body game-main">
+
+          </div> --}}
         </div>
       </div>
       <div class="col-sm-3">
