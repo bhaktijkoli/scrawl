@@ -389,6 +389,10 @@ body {
   font-size: 1rem;
 }
 
+.player-count {
+  float: right;
+}
+
 .game-panel {
   min-height: 550px;
 }

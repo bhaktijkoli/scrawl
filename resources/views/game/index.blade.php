@@ -11,6 +11,7 @@
         <div class="panel game-panel">
           <div class="panel-title">
             Players
+            <span class="player-count">1/5</span>
           </div>
           <div class="panel-body">
             <ul class="players-list">
