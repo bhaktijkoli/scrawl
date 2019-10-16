@@ -1,4 +1,5 @@
 let code = $("#game").data('code');
+let lobby = null;
 window.Echo.channel(`${code}.new-player`).listen('NewPlayer', (data) => {
   let player = data.player;
   $('.players-list').append(`
@@ -8,3 +9,8 @@ window.Echo.channel(`${code}.new-player`).listen('NewPlayer', (data) => {
     </li>
     `)
 });
+
+axios.get('/api/game/'+code).then(res => {
+  lobby = res.data.data;
+  console.log(lobby);
+})

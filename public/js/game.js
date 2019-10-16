@@ -94,9 +94,14 @@
 /***/ (function(module, exports) {
 
 var code = $("#game").data('code');
+var lobby = null;
 window.Echo.channel("".concat(code, ".new-player")).listen('NewPlayer', function (data) {
   var player = data.player;
   $('.players-list').append("\n    <li>\n      <img src=\"".concat(player.avatar, "\" alt=\"\">\n      <p>").concat(player.name, "</p>\n    </li>\n    "));
+});
+axios.get('/api/game/' + code).then(function (res) {
+  lobby = res.data.data;
+  console.log(lobby);
 });
 
 /***/ }),

@@ -389,3 +389,12 @@ body {
   font-size: 1rem;
 }
 
+.game-panel {
+  min-height: 550px;
+}
+
+.invite .code {
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+

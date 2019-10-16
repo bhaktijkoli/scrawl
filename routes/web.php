@@ -22,3 +22,8 @@ Route::post('/lobby', 'LobbyController@postIndex');
 Route::get('/lobby/new', 'LobbyController@new')->name('lobby.new');
 Route::post('/lobby/new', 'LobbyController@newPost')->name('lobby.new.post');
 Route::get('/lobby/{code}', 'GameController@index')->name('game.index');
+
+// API
+Route::prefix('api')->group(function () {
+    Route::get('game/{code}', 'GameApiController@get');
+});
