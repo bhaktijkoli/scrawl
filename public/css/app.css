@@ -435,7 +435,14 @@ body {
 
 .chats {
   margin-bottom: 20px;
-  background: red;
+}
+
+.chats .chat {
+  margin: 0px;
+}
+
+.chats .chat span {
+  color: #67c2ff;
 }
 
 .chat-input {

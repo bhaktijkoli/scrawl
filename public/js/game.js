@@ -116,8 +116,8 @@ channel.listen('EndRound', function (data) {
   alert("ROUND END");
 });
 channel.listen('NewMessage', function (data) {
-  alert("NEW MESSAGE");
-  console.log(data);
+  var message = data.message;
+  $('.chats').append("<p class=\"chat\"><span>".concat(message.user_name, ":</span> ").concat(message.body, "</p>"));
 });
 axios.get('/api/user').then(function (res) {
   user = res.data;
@@ -134,6 +134,7 @@ $('#chat-input').keypress(function (event) {
       lobby: lobby.id,
       message: $('#chat-input').val()
     });
+    $('#chat-input').val('');
   }
 });
 

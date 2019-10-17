@@ -36,7 +36,6 @@
           </div>
           <div class="panel-body">
             <div class="chats">
-
             </div>
             <div class="chat-input">
               <input id="chat-input" class="input"/>

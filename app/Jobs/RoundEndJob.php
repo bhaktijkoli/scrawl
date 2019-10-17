@@ -23,6 +23,7 @@ class RoundEndJob implements ShouldQueue
   */
   public function __construct($round)
   {
+    $this->connection = 'database';
     $this->round = $round;
   }
 

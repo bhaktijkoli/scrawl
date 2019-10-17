@@ -29,8 +29,8 @@ channel.listen('EndRound', (data) => {
   alert("ROUND END");
 });
 channel.listen('NewMessage', (data) => {
-  alert("NEW MESSAGE");
-  console.log(data);
+  let message = data.message;
+  $('.chats').append(`<p class="chat"><span>${message.user_name}:</span> ${message.body}</p>`)
 });
 
 axios.get('/api/user').then(res => {
@@ -45,6 +45,7 @@ $('#chat-input').keypress(function(event){
 	var keycode = (event.keyCode ? event.keyCode : event.which);
 	if(keycode == '13') {
     axios.post('/api/chat/add', {lobby: lobby.id, message: $('#chat-input').val()})
+    $('#chat-input').val('');
   }
 });
 
