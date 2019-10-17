@@ -94,6 +94,7 @@
 /***/ (function(module, exports) {
 
 var code = $("#game").data('code');
+var user = null;
 var lobby = null;
 var channel = window.Echo["private"]("game.".concat(code));
 channel.listen('NewPlayer', function (data) {
@@ -103,30 +104,60 @@ channel.listen('NewPlayer', function (data) {
   $('.player-count').text("".concat(lobby.players.length, "/5"));
 });
 channel.listen('NewRound', function (data) {
-  console.log(data);
   lobby = data.lobby;
   updateGameStatus();
 });
-axios.get('/api/game/' + code).then(function (res) {
-  lobby = res.data.data;
+channel.listen('UpdateRound', function (data) {
+  lobby = data.lobby;
   console.log(lobby);
   updateGameStatus();
+});
+axios.get('/api/user').then(function (res) {
+  user = res.data;
+  axios.get('/api/game/' + code).then(function (res) {
+    lobby = res.data.data;
+    console.log(lobby);
+    updateGameStatus();
+  });
 });
 
 window.updateGameStatus = function () {
   $('.player-count').text("".concat(lobby.players.length, "/5"));
 
   if (lobby.status == 0) {
+    // GAME STATUS 0
     $('.game-main').html("\n      <div class=\"invite center\">\n      <p>Invite your friends</p>\n      <p class=\"code\">".concat(lobby.code, "</p>\n      <button class=\"btn\" onclick=\"startGame()\">Start Game</button>\n      </div>\n      "));
   } else {
-    console.log(lobby.current_round.timeleft);
-    $('.game-main').html("\n      <div class=\"panel-title\">\n      <span class=\"game-time\"><i class=\"fa fa-clock-o\">&nbsp;".concat(lobby.current_round.timeleft, "</i></span>\n      <span class=\"game-round\">Round ").concat(lobby.status, "/").concat(lobby.max_rounds, "</i></span>\n      </div>\n      <div class=\"panel-body game-main\">\n      <div id=\"sketch\">\n      <canvas id=\"paint\"></canvas>\n      </div>\n      </div>\n      "));
-    startDrawing();
+    // GAME STATUS 1
+    $('.game-main').html("\n      <div class=\"panel-title\">\n      <span class=\"game-time\"><i class=\"fa fa-clock-o\">&nbsp;".concat(lobby.current_round.timeleft, "</i></span>\n      <span class=\"game-round\">Round ").concat(lobby.status, "/").concat(lobby.max_rounds, "</i></span>\n      </div>\n      <div class=\"panel-body\">\n      <div id=\"sketch\">\n      <canvas id=\"paint\"></canvas>\n      </div>\n      </div>\n      ")); // ROUND STATUS 0
+
+    if (lobby.current_round.status == 0) {
+      if (lobby.current_round.drawer.id == user.id) {
+        $('.game-main .panel-body').html("\n          <div class=\"center\" style=\"margin-top:50px\">\n            <p>Select a word</p>\n            <ul class=\"word-list\"></ul>\n          </div>\n          ");
+        axios.get('/api/word/get').then(function (res) {
+          var words = res.data;
+          words.forEach(function (word) {
+            var li = "<li onclick=\"selectWord(".concat(word.id, ")\">").concat(word.word, "</li>");
+            $('.word-list').append(li);
+          });
+        });
+      } else {
+        $('.game-main .panel-body').html("\n          <div class=\"center\" style=\"margin-top:50px\">\n            <p class=\"code\"><span>".concat(lobby.current_round.drawer.name, "</span> is selecting a word...</p>\n          </div>\n          "));
+      }
+    } // startDrawing();
+
   }
 };
 
 window.startGame = function () {
   axios.post('/api/game/' + lobby.code + '/start');
+};
+
+window.selectWord = function (id) {
+  axios.post('/api/round/word', {
+    round: lobby.current_round.id,
+    word: id
+  });
 };
 
 window.startDrawing = function () {

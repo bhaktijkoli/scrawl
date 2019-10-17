@@ -1,4 +1,5 @@
 let code = $("#game").data('code');
+let user = null;
 let lobby = null;
 let channel = window.Echo.private(`game.${code}`)
 channel.listen('NewPlayer', (data) => {
@@ -16,20 +17,30 @@ channel.listen('NewPlayer', (data) => {
 });
 
 channel.listen('NewRound', (data) => {
-  console.log(data);
   lobby = data.lobby;
   updateGameStatus();
 });
-
-axios.get('/api/game/'+code).then(res => {
-  lobby = res.data.data;
+channel.listen('UpdateRound', (data) => {
+  lobby = data.lobby;
   console.log(lobby);
   updateGameStatus();
 });
 
+axios.get('/api/user').then(res => {
+  user = res.data;
+  axios.get('/api/game/'+code).then(res => {
+    lobby = res.data.data;
+    console.log(lobby);
+    updateGameStatus();
+  });
+})
+
+
+
 window.updateGameStatus = () => {
   $('.player-count').text(`${lobby.players.length}/5`);
   if(lobby.status == 0) {
+    // GAME STATUS 0
     $('.game-main').html(
       `
       <div class="invite center">
@@ -40,25 +51,61 @@ window.updateGameStatus = () => {
       `
     )
   } else {
-    console.log(lobby.current_round.timeleft);
+    // GAME STATUS 1
     $('.game-main').html(`
       <div class="panel-title">
       <span class="game-time"><i class="fa fa-clock-o">&nbsp;${lobby.current_round.timeleft}</i></span>
       <span class="game-round">Round ${lobby.status}/${lobby.max_rounds}</i></span>
       </div>
-      <div class="panel-body game-main">
+      <div class="panel-body">
       <div id="sketch">
       <canvas id="paint"></canvas>
       </div>
       </div>
       `
     )
-    startDrawing();
+
+    // ROUND STATUS 0
+    if(lobby.current_round.status == 0)
+    {
+      if(lobby.current_round.drawer.id == user.id)
+      {
+        $('.game-main .panel-body').html(
+          `
+          <div class="center" style="margin-top:50px">
+            <p>Select a word</p>
+            <ul class="word-list"></ul>
+          </div>
+          `
+        )
+        axios.get('/api/word/get').then(res => {
+          let words = res.data;
+          words.forEach(word => {
+            let li = `<li onclick="selectWord(${word.id})">${word.word}</li>`
+            $('.word-list').append(li);
+          })
+        })
+      } else {
+        $('.game-main .panel-body').html(
+          `
+          <div class="center" style="margin-top:50px">
+            <p class="code"><span>${lobby.current_round.drawer.name}</span> is selecting a word...</p>
+          </div>
+          `
+        )
+      }
+    }
+
+    // startDrawing();
   }
 }
 
 window.startGame = () => {
   axios.post('/api/game/'+lobby.code+'/start')
+}
+
+window.selectWord = (id) => {
+  axios.post('/api/round/word', {round: lobby.current_round.id, word: id});
 }
 
 window.startDrawing = () => {

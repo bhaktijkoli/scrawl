@@ -4,6 +4,8 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
+use Carbon\Carbon;
+
 class Round extends JsonResource
 {
   /**
@@ -19,7 +21,9 @@ class Round extends JsonResource
       $timeleft = $this->end_at->diffInSeconds(Carbon::now(), true);
     }
     return [
+      'id' => $this->id,
       'status' => $this->status,
+      'drawer' => $this->drawer,
       'timeleft' => $timeleft
     ];
   }

@@ -401,9 +401,27 @@ body {
   min-height: 550px;
 }
 
-.invite .code {
+.game-main .code {
   font-size: 2rem;
   font-weight: bold;
+}
+
+.game-main .code span {
+  color: #67c2ff;
+}
+
+.word-list {
+  list-style: none;
+  padding-left: 0px;
+}
+
+.word-list li {
+  font-size: 2rem;
+  cursor: pointer;
+}
+
+.word-list li:hover {
+  color: #67c2ff;
 }
 
 #sketch {

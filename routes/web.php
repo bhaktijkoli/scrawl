@@ -25,6 +25,9 @@ Route::get('/lobby/{code}', 'GameController@index')->name('game.index');
 
 // API
 Route::prefix('api')->group(function () {
+    Route::get('user/', 'AuthApiController@get');
     Route::get('game/{code}', 'GameApiController@get');
     Route::post('game/{code}/start', 'GameApiController@start');
+    Route::get('word/get', 'WordApiController@get');
+    Route::post('round/word', 'RoundApiController@word');
 });
