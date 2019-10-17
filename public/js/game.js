@@ -117,12 +117,47 @@ window.updateGameStatus = function () {
   if (lobby.status == 0) {
     $('.game-main').html("\n      <div class=\"invite center\">\n      <p>Invite your friends</p>\n      <p class=\"code\">".concat(lobby.code, "</p>\n      <button class=\"btn\" onclick=\"startGame()\">Start Game</button>\n      </div>\n      "));
   } else {
-    $('.game-main').html("\n      <div class=\"panel-title\">\n      <span class=\"game-time\"><i class=\"fa fa-clock-o\">&nbsp;".concat(lobby.time, "</i></span>\n      <span class=\"game-round\">Round ").concat(lobby.status, "/3</i></span>\n      </div>\n      <div class=\"panel-body game-main\">\n\n      </div>\n      "));
+    $('.game-main').html("\n      <div class=\"panel-title\">\n      <span class=\"game-time\"><i class=\"fa fa-clock-o\">&nbsp;".concat(lobby.time, "</i></span>\n      <span class=\"game-round\">Round ").concat(lobby.status, "/3</i></span>\n      </div>\n      <div class=\"panel-body game-main\">\n      <div id=\"sketch\">\n      <canvas id=\"paint\"></canvas>\n      </div>\n      </div>\n      "));
+    startDrawing();
   }
 };
 
 window.startGame = function () {
   axios.post('/api/game/' + lobby.code + '/start');
+};
+
+window.startDrawing = function () {
+  var canvas = document.querySelector('#paint');
+  var ctx = canvas.getContext('2d');
+  var sketch = document.querySelector('#sketch');
+  var sketch_style = getComputedStyle(sketch);
+  canvas.width = parseInt(sketch_style.getPropertyValue('width'));
+  canvas.height = parseInt(sketch_style.getPropertyValue('height'));
+  var mouse = {
+    x: 0,
+    y: 0
+  };
+  canvas.addEventListener('mousemove', function (e) {
+    mouse.x = e.pageX - this.offsetLeft;
+    mouse.y = e.pageY - this.offsetTop;
+  }, false);
+  ctx.lineWidth = 5;
+  ctx.lineJoin = 'round';
+  ctx.lineCap = 'round';
+  ctx.strokeStyle = 'blue';
+  canvas.addEventListener('mousedown', function (e) {
+    ctx.beginPath();
+    ctx.moveTo(mouse.x, mouse.y);
+    canvas.addEventListener('mousemove', onPaint, false);
+  }, false);
+  canvas.addEventListener('mouseup', function () {
+    canvas.removeEventListener('mousemove', onPaint, false);
+  }, false);
+
+  var onPaint = function onPaint() {
+    ctx.lineTo(mouse.x, mouse.y);
+    ctx.stroke();
+  };
 };
 
 /***/ }),

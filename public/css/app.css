@@ -397,12 +397,17 @@ body {
   float: right;
 }
 
-.game-panel {
+.game-panel .panel-body {
   min-height: 550px;
 }
 
 .invite .code {
   font-size: 2rem;
   font-weight: bold;
+}
+
+#sketch {
+  width: 100%;
+  height: 500px;
 }
 
