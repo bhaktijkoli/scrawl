@@ -47,8 +47,8 @@ class LobbyController extends Controller
   {
     $lobby = new Lobby();
     $lobby->code = str_random(5);
-    $lobby->rounds = $request->input('rounds');
-    $lobby->time = $request->input('time');
+    $lobby->max_rounds = $request->input('rounds');
+    $lobby->max_time = $request->input('time');
     $lobby->private = '1';
     $lobby->user_id = Auth::user()->id;
     $lobby->save();

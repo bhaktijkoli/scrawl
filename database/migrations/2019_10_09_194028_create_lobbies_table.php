@@ -17,13 +17,10 @@ class CreateLobbiesTable extends Migration
       $table->bigIncrements('id');
       $table->string('name')->nullable();
       $table->string('code')->nullable();
-      $table->integer('rounds')->nullable();
-      $table->integer('status')->default(0);
-      $table->integer('time')->nullable();
-      $table->string('current_word')->nullable();
-      $table->integer('current_word_player')->nullable();
-      $table->integer('current_word_status')->nullable();
-      $table->timestamp('current_endtime')->nullable();
+      $table->integer('max_rounds')->nullable();
+      $table->integer('max_time')->nullable();
+      $table->integer('current_round_id')->nullable();
+      $table->enum('status', ['0', '1', '2'])->default('0');
       $table->enum('private', ['0', '1'])->default('0');
       $table->unsignedInteger('user_id')->nullable();
       $table->timestamps();

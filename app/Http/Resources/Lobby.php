@@ -16,19 +16,15 @@ class Lobby extends JsonResource
   */
   public function toArray($request)
   {
-    $current_timeleft = 0;
-    if($this->current_endtime) {
-      $current_timeleft = $this->current_endtime->diffInSeconds(Carbon::now(), true);
-    }
     return [
       'id' => $this->id,
       'code' => $this->code,
       'private' => $this->private,
-      'rounds' => $this->rounds,
-      'time' => $this->time,
+      'max_rounds' => $this->max_rounds,
+      'max_time' => $this->max_time,
       'status' => $this->status,
-      'current_timeleft' => $current_timeleft,
       'players' => $this->players,
+      'current_round' => new Round($this->current_round),
     ];
   }
 }

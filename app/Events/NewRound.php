@@ -10,6 +10,8 @@ use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 
+use App\Http\Resources\Lobby as LobbyResource;
+
 class NewRound implements ShouldBroadcast
 {
   use Dispatchable, InteractsWithSockets, SerializesModels;
@@ -44,6 +46,6 @@ class NewRound implements ShouldBroadcast
   */
   public function broadcastWith()
   {
-    return ['round' => $this->lobby->status];
+    return ['lobby' => new LobbyResource($this->lobby)];
   }
 }

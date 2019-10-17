@@ -394,7 +394,7 @@ body {
 }
 
 .game-round {
-  float: right;
+  margin-left: 5px;
 }
 
 .game-panel .panel-body {

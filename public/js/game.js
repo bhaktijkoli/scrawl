@@ -103,11 +103,13 @@ channel.listen('NewPlayer', function (data) {
   $('.player-count').text("".concat(lobby.players.length, "/5"));
 });
 channel.listen('NewRound', function (data) {
-  lobby.status = data.round;
+  console.log(data);
+  lobby = data.lobby;
   updateGameStatus();
 });
 axios.get('/api/game/' + code).then(function (res) {
   lobby = res.data.data;
+  console.log(lobby);
   updateGameStatus();
 });
 
@@ -117,7 +119,8 @@ window.updateGameStatus = function () {
   if (lobby.status == 0) {
     $('.game-main').html("\n      <div class=\"invite center\">\n      <p>Invite your friends</p>\n      <p class=\"code\">".concat(lobby.code, "</p>\n      <button class=\"btn\" onclick=\"startGame()\">Start Game</button>\n      </div>\n      "));
   } else {
-    $('.game-main').html("\n      <div class=\"panel-title\">\n      <span class=\"game-time\"><i class=\"fa fa-clock-o\">&nbsp;".concat(lobby.time, "</i></span>\n      <span class=\"game-round\">Round ").concat(lobby.status, "/3</i></span>\n      </div>\n      <div class=\"panel-body game-main\">\n      <div id=\"sketch\">\n      <canvas id=\"paint\"></canvas>\n      </div>\n      </div>\n      "));
+    console.log(lobby.current_round.timeleft);
+    $('.game-main').html("\n      <div class=\"panel-title\">\n      <span class=\"game-time\"><i class=\"fa fa-clock-o\">&nbsp;".concat(lobby.current_round.timeleft, "</i></span>\n      <span class=\"game-round\">Round ").concat(lobby.status, "/").concat(lobby.max_rounds, "</i></span>\n      </div>\n      <div class=\"panel-body game-main\">\n      <div id=\"sketch\">\n      <canvas id=\"paint\"></canvas>\n      </div>\n      </div>\n      "));
     startDrawing();
   }
 };

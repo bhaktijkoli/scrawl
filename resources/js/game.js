@@ -16,12 +16,14 @@ channel.listen('NewPlayer', (data) => {
 });
 
 channel.listen('NewRound', (data) => {
-  lobby.status = data.round;
+  console.log(data);
+  lobby = data.lobby;
   updateGameStatus();
 });
 
 axios.get('/api/game/'+code).then(res => {
   lobby = res.data.data;
+  console.log(lobby);
   updateGameStatus();
 });
 
@@ -38,10 +40,11 @@ window.updateGameStatus = () => {
       `
     )
   } else {
+    console.log(lobby.current_round.timeleft);
     $('.game-main').html(`
       <div class="panel-title">
-      <span class="game-time"><i class="fa fa-clock-o">&nbsp;${lobby.time}</i></span>
-      <span class="game-round">Round ${lobby.status}/3</i></span>
+      <span class="game-time"><i class="fa fa-clock-o">&nbsp;${lobby.current_round.timeleft}</i></span>
+      <span class="game-round">Round ${lobby.status}/${lobby.max_rounds}</i></span>
       </div>
       <div class="panel-body game-main">
       <div id="sketch">
