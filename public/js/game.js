@@ -106,11 +106,12 @@ channel.listen('NewPlayer', function (data) {
 channel.listen('NewRound', function (data) {
   lobby = data.lobby;
   updateGameStatus();
+  updatePlayers();
 });
 channel.listen('UpdateRound', function (data) {
   lobby = data.lobby;
-  console.log(lobby);
   updateGameStatus();
+  updatePlayers();
 });
 channel.listen('EndRound', function (data) {
   alert("ROUND END");
@@ -132,7 +133,9 @@ axios.get('/api/user').then(function (res) {
   user = res.data;
   axios.get('/api/game/' + code).then(function (res) {
     lobby = res.data.data;
+    console.log(lobby);
     updateGameStatus();
+    updatePlayers();
   });
 });
 $('#chat-input').keypress(function (event) {
@@ -176,6 +179,13 @@ window.updateGameStatus = function () {
         startDrawing();
       }
   }
+};
+
+window.updatePlayers = function () {
+  $('.players-list').html('');
+  lobby.players.forEach(function (player) {
+    $('.players-list').append("<li class=\"player\">\n      <img src=\"".concat(player.avatar, "\" alt=\"\">\n      <div class=\"player-details\">\n      <p class=\"player-name\">").concat(player.name, "</p>\n      <p class=\"player-points\">Points: <span>").concat(player.points, "</span></p>\n      </div>\n      </li>"));
+  });
 };
 
 window.startGame = function () {

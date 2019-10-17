@@ -4,6 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
+use App\LobbyPlayer;
 use Carbon\Carbon;
 
 class Lobby extends JsonResource
@@ -16,6 +17,16 @@ class Lobby extends JsonResource
   */
   public function toArray($request)
   {
+    $players = [];
+    $lobbyPlayers = LobbyPlayer::where('lobby_id', $this->id)->orderBy('points', 'DESC')->get();
+    foreach ($lobbyPlayers as $player) {
+      $data = [
+        'name' => $player->user->name,
+        'avatar' => $player->user->avatar,
+        'points' => $player->points,
+      ];
+      array_push($players, $data);
+    }
     return [
       'id' => $this->id,
       'code' => $this->code,
@@ -23,7 +34,7 @@ class Lobby extends JsonResource
       'max_rounds' => $this->max_rounds,
       'max_time' => $this->max_time,
       'status' => $this->status,
-      'players' => $this->players,
+      'players' => $players,
       'current_round' => new Round($this->current_round),
     ];
   }

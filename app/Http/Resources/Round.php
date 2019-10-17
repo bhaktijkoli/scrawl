@@ -28,7 +28,7 @@ class Round extends JsonResource
       'id' => $this->id,
       'status' => $this->status,
       'drawer' => $this->drawer,
-      'timeleft' => $timeleft
+      'timeleft' => $this->getTimeLeft(),
     ];
   }
 }

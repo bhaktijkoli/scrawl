@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Events\NewMessage;
 
 use App\Lobby;
+use App\LobbyPlayer;
 use Auth;
 
 class ChatApiController extends Controller
@@ -23,6 +24,9 @@ class ChatApiController extends Controller
         'user_id' => Auth::user()->id,
         'body' => Auth::user()->name . ' has guessed the word correctly.',
       ];
+      $player = LobbyPlayer::where('lobby_id', $lobby->id)->where('user_id', Auth::user()->id)->first();
+      $player->points = (int) $player->points + (int) $lobby->current_round->getTimeLeft();
+      $player->save();
     } else {
       $data = [
         'type' => 'chat',

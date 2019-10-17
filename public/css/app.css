@@ -376,17 +376,33 @@ body {
   list-style: none;
 }
 
-.players-list li img {
+.players-list .player {
+  margin-bottom: 20px;
+}
+
+.players-list .player img {
   display: inline-block;
   vertical-align: middle;
   width: 42px;
 }
 
-.players-list li p {
-  margin-left: 10px;
+.players-list .player .player-details {
   display: inline-block;
-  vertical-align: super;
+  vertical-align: bottom;
+}
+
+.players-list .player .player-details .player-name {
+  margin: 0px 0px 0px 15px;
   font-size: 1rem;
+}
+
+.players-list .player .player-details .player-points {
+  margin: 0px 0px 0px 15px;
+  font-size: 0.8rem;
+}
+
+.players-list .player .player-details .player-points span {
+  color: #2ecc71;
 }
 
 .player-count {

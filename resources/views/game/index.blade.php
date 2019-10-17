@@ -16,9 +16,12 @@
           <div class="panel-body">
             <ul class="players-list">
               @foreach (App\LobbyPlayer::where('lobby_id', $lobby->id)->get() as $player)
-                <li>
+                <li class="player">
                   <img src="{{$player->user->avatar}}" alt="">
-                  <p>{{$player->user->name}}</p>
+                  <div class="player-details">
+                    <p class="player-name">{{$player->user->name}}</p>
+                    <p class="player-points">Points: <span>{{$player->points}}</span></p>
+                  </div>
                 </li>
               @endforeach
             </ul>

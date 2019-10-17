@@ -1,16 +1,28 @@
 .players-list {
   padding-left: 0px;
   list-style: none;
-  li img {
+  .player {
+    margin-bottom: 20px;
+  }
+  .player img {
     display: inline-block;
     vertical-align: middle;
     width: 42px;
   }
-  li p {
-    margin-left: 10px;
+  .player .player-details {
     display: inline-block;
-    vertical-align: super;
+    vertical-align: bottom;
+  }
+  .player .player-details .player-name {
+    margin: 0px 0px 0px 15px;
     font-size: 1rem;
+  }
+  .player .player-details .player-points {
+    margin: 0px 0px 0px 15px;
+    font-size: 0.8rem;
+  }
+  .player .player-details .player-points span {
+    color: #2ecc71;
   }
 }
 

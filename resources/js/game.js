@@ -19,11 +19,12 @@ channel.listen('NewPlayer', (data) => {
 channel.listen('NewRound', (data) => {
   lobby = data.lobby;
   updateGameStatus();
+  updatePlayers();
 });
 channel.listen('UpdateRound', (data) => {
   lobby = data.lobby;
-  console.log(lobby);
   updateGameStatus();
+  updatePlayers();
 });
 channel.listen('EndRound', (data) => {
   alert("ROUND END");
@@ -44,7 +45,9 @@ axios.get('/api/user').then(res => {
   user = res.data;
   axios.get('/api/game/'+code).then(res => {
     lobby = res.data.data;
+    console.log(lobby);
     updateGameStatus();
+    updatePlayers();
   });
 })
 
@@ -121,6 +124,21 @@ window.updateGameStatus = () => {
       startDrawing();
     }
   }
+}
+
+window.updatePlayers = () => {
+  $('.players-list').html('');
+  lobby.players.forEach( player => {
+    $('.players-list').append(
+      `<li class="player">
+      <img src="${player.avatar}" alt="">
+      <div class="player-details">
+      <p class="player-name">${player.name}</p>
+      <p class="player-points">Points: <span>${player.points}</span></p>
+      </div>
+      </li>`
+    )
+  })
 }
 
 window.startGame = () => {
