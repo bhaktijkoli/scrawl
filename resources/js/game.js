@@ -1,6 +1,6 @@
 let code = $("#game").data('code');
 let lobby = null;
-let channel = window.Echo.channel(`game.${code}`)
+let channel = window.Echo.private(`game.${code}`)
 channel.listen('NewPlayer', (data) => {
   let player = data.player;
   lobby.players.push(player);
@@ -59,38 +59,54 @@ window.startGame = () => {
 }
 
 window.startDrawing = () => {
-  var canvas = document.querySelector('#paint');
-  var ctx = canvas.getContext('2d');
-
-  var sketch = document.querySelector('#sketch');
-  var sketch_style = getComputedStyle(sketch);
+  let canvas = document.querySelector('#paint');
+  let ctx = canvas.getContext('2d');
+  let sketch = document.querySelector('#sketch');
+  let sketch_style = getComputedStyle(sketch);
   canvas.width = parseInt(sketch_style.getPropertyValue('width'));
   canvas.height = parseInt(sketch_style.getPropertyValue('height'));
-  var mouse = {x: 0, y: 0};
-
-  canvas.addEventListener('mousemove', function(e) {
-    mouse.x = e.pageX - this.offsetLeft;
-    mouse.y = e.pageY - this.offsetTop;
-  }, false);
-
   ctx.lineWidth = 5;
   ctx.lineJoin = 'round';
   ctx.lineCap = 'round';
   ctx.strokeStyle = 'blue';
+  var drawing = false;
+
+  canvas.addEventListener('mousemove', function(e) {
+    let x = e.pageX - this.offsetLeft;
+    let y = e.pageY - this.offsetTop;
+    if(drawing) {
+      channel.whisper('drawing.move', {x, y});
+      paint(x, y)
+    }
+  }, false);
 
   canvas.addEventListener('mousedown', function(e) {
+    let x = e.pageX - this.offsetLeft;
+    let y = e.pageY - this.offsetTop;
+    channel.whisper('drawing.start', {x, y});
     ctx.beginPath();
-    ctx.moveTo(mouse.x, mouse.y);
-
-    canvas.addEventListener('mousemove', onPaint, false);
+    ctx.moveTo(x, y);
+    paint(x, y)
+    drawing = true;
   }, false);
 
   canvas.addEventListener('mouseup', function() {
-    canvas.removeEventListener('mousemove', onPaint, false);
+    drawing = false;
   }, false);
 
-  var onPaint = function() {
-    ctx.lineTo(mouse.x, mouse.y);
+  let paint = (x, y) => {
+    ctx.lineTo(x, y);
     ctx.stroke();
-  };
+  }
+
+  channel.listenForWhisper('drawing.start', (data) => {
+    console.log(data);
+    ctx.beginPath();
+    ctx.moveTo(data.x, data.y);
+    paint(data.x, data.y)
+  })
+  channel.listenForWhisper('drawing.move', (data) => {
+    console.log(data);
+    paint(data.x, data.y)
+  })
 }

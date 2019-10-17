@@ -95,7 +95,7 @@
 
 var code = $("#game").data('code');
 var lobby = null;
-var channel = window.Echo.channel("game.".concat(code));
+var channel = window.Echo["private"]("game.".concat(code));
 channel.listen('NewPlayer', function (data) {
   var player = data.player;
   lobby.players.push(player);
@@ -133,31 +133,54 @@ window.startDrawing = function () {
   var sketch_style = getComputedStyle(sketch);
   canvas.width = parseInt(sketch_style.getPropertyValue('width'));
   canvas.height = parseInt(sketch_style.getPropertyValue('height'));
-  var mouse = {
-    x: 0,
-    y: 0
-  };
-  canvas.addEventListener('mousemove', function (e) {
-    mouse.x = e.pageX - this.offsetLeft;
-    mouse.y = e.pageY - this.offsetTop;
-  }, false);
   ctx.lineWidth = 5;
   ctx.lineJoin = 'round';
   ctx.lineCap = 'round';
   ctx.strokeStyle = 'blue';
+  var drawing = false;
+  canvas.addEventListener('mousemove', function (e) {
+    var x = e.pageX - this.offsetLeft;
+    var y = e.pageY - this.offsetTop;
+
+    if (drawing) {
+      channel.whisper('drawing.move', {
+        x: x,
+        y: y
+      });
+      paint(x, y);
+    }
+  }, false);
   canvas.addEventListener('mousedown', function (e) {
+    var x = e.pageX - this.offsetLeft;
+    var y = e.pageY - this.offsetTop;
+    channel.whisper('drawing.start', {
+      x: x,
+      y: y
+    });
     ctx.beginPath();
-    ctx.moveTo(mouse.x, mouse.y);
-    canvas.addEventListener('mousemove', onPaint, false);
+    ctx.moveTo(x, y);
+    paint(x, y);
+    drawing = true;
   }, false);
   canvas.addEventListener('mouseup', function () {
-    canvas.removeEventListener('mousemove', onPaint, false);
+    drawing = false;
   }, false);
 
-  var onPaint = function onPaint() {
-    ctx.lineTo(mouse.x, mouse.y);
+  var paint = function paint(x, y) {
+    ctx.lineTo(x, y);
     ctx.stroke();
   };
+
+  channel.listenForWhisper('drawing.start', function (data) {
+    console.log(data);
+    ctx.beginPath();
+    ctx.moveTo(data.x, data.y);
+    paint(data.x, data.y);
+  });
+  channel.listenForWhisper('drawing.move', function (data) {
+    console.log(data);
+    paint(data.x, data.y);
+  });
 };
 
 /***/ }),

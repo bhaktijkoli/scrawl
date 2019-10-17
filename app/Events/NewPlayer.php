@@ -36,7 +36,7 @@ class NewPlayer implements ShouldBroadcast
   public function broadcastOn()
   {
     $code = $this->lobby->code;
-    return new Channel("game.$code");
+    return new PrivateChannel("game.$code");
   }
 
   /**
