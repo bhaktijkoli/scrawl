@@ -8,6 +8,7 @@ use App\Events\NewMessage;
 
 use App\Lobby;
 use App\LobbyPlayer;
+use App\Events\UpdateRound;
 use Auth;
 
 class ChatApiController extends Controller
@@ -27,6 +28,7 @@ class ChatApiController extends Controller
       $player = LobbyPlayer::where('lobby_id', $lobby->id)->where('user_id', Auth::user()->id)->first();
       $player->points = (int) $player->points + (int) $lobby->current_round->getTimeLeft();
       $player->save();
+      event(new UpdateRound($lobby));
     } else {
       $data = [
         'type' => 'chat',
