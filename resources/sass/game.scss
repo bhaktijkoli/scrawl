@@ -60,13 +60,18 @@
   position: relative;
 }
 .chats {
+  height: 500px;
+  overflow: scroll;
   margin-bottom: 20px;
 }
-.chats .chat {
+.chats p {
   margin: 0px;
 }
 .chats .chat span {
   color: #67c2ff;
+}
+.chats .notification {
+  color: #2ecc71;
 }
 
 .chat-input {

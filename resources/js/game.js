@@ -30,7 +30,14 @@ channel.listen('EndRound', (data) => {
 });
 channel.listen('NewMessage', (data) => {
   let message = data.message;
-  $('.chats').append(`<p class="chat"><span>${message.user_name}:</span> ${message.body}</p>`)
+  if(message.type == 'notification') {
+    $('.chats').append(`<p class="notification">${message.body}</p>`);
+  } else {
+    $('.chats').append(`<p class="chat"><span>${message.user_name}:</span> ${message.body}</p>`);
+  }
+  $('.chats').stop().animate({
+    scrollTop: $('.chats')[0].scrollHeight
+  }, 800);
 });
 
 axios.get('/api/user').then(res => {
@@ -42,8 +49,8 @@ axios.get('/api/user').then(res => {
 })
 
 $('#chat-input').keypress(function(event){
-	var keycode = (event.keyCode ? event.keyCode : event.which);
-	if(keycode == '13') {
+  var keycode = (event.keyCode ? event.keyCode : event.which);
+  if(keycode == '13') {
     axios.post('/api/chat/add', {lobby: lobby.id, message: $('#chat-input').val()})
     $('#chat-input').val('');
   }

@@ -117,7 +117,16 @@ channel.listen('EndRound', function (data) {
 });
 channel.listen('NewMessage', function (data) {
   var message = data.message;
-  $('.chats').append("<p class=\"chat\"><span>".concat(message.user_name, ":</span> ").concat(message.body, "</p>"));
+
+  if (message.type == 'notification') {
+    $('.chats').append("<p class=\"notification\">".concat(message.body, "</p>"));
+  } else {
+    $('.chats').append("<p class=\"chat\"><span>".concat(message.user_name, ":</span> ").concat(message.body, "</p>"));
+  }
+
+  $('.chats').stop().animate({
+    scrollTop: $('.chats')[0].scrollHeight
+  }, 800);
 });
 axios.get('/api/user').then(function (res) {
   user = res.data;
