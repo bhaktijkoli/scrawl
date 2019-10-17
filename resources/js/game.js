@@ -25,12 +25,14 @@ channel.listen('UpdateRound', (data) => {
   console.log(lobby);
   updateGameStatus();
 });
+channel.listen('EndRound', (data) => {
+  alert("ROUND END");
+});
 
 axios.get('/api/user').then(res => {
   user = res.data;
   axios.get('/api/game/'+code).then(res => {
     lobby = res.data.data;
-    console.log(lobby);
     updateGameStatus();
   });
 })
@@ -109,6 +111,7 @@ window.startGame = () => {
 
 window.selectWord = (id) => {
   axios.post('/api/round/word', {round: lobby.current_round.id, word: id});
+  $('.game-main .panel-body').html(`<div class="center" style="margin-top:50px"><p>Get ready to draw!</p></div>`)
 }
 
 window.startTimer = () => {

@@ -112,11 +112,13 @@ channel.listen('UpdateRound', function (data) {
   console.log(lobby);
   updateGameStatus();
 });
+channel.listen('EndRound', function (data) {
+  alert("ROUND END");
+});
 axios.get('/api/user').then(function (res) {
   user = res.data;
   axios.get('/api/game/' + code).then(function (res) {
     lobby = res.data.data;
-    console.log(lobby);
     updateGameStatus();
   });
 });
@@ -161,6 +163,7 @@ window.selectWord = function (id) {
     round: lobby.current_round.id,
     word: id
   });
+  $('.game-main .panel-body').html("<div class=\"center\" style=\"margin-top:50px\"><p>Get ready to draw!</p></div>");
 };
 
 window.startTimer = function () {

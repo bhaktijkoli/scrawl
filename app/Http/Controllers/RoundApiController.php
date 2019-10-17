@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Round;
 use App\Word;
 use App\Events\UpdateRound;
+use App\Jobs\RoundEndJob;
 use Carbon\Carbon;
 use Auth;
 
@@ -24,6 +25,7 @@ class RoundApiController extends Controller
     $round->end_at = Carbon::now()->addSeconds($round->lobby->max_time)->format('Y-m-d H:i:s');
     $round->save();
     event(new UpdateRound($round->lobby));
+    RoundEndJob::dispatch($round)->delay(now()->addSeconds($round->lobby->max_time));
     return "Ok";
   }
 }
