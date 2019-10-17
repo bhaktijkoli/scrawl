@@ -18,7 +18,11 @@ class Round extends JsonResource
   {
     $timeleft = $this->lobby->max_time;
     if($this->end_at) {
-      $timeleft = $this->end_at->diffInSeconds(Carbon::now(), true);
+      if($this->end_at->isFuture()) {
+        $timeleft = $this->end_at->diffInSeconds(Carbon::now(), true);
+      } else {
+        $timeleft = 0;
+      }
     }
     return [
       'id' => $this->id,

@@ -95,7 +95,10 @@ window.updateGameStatus = () => {
         )
       }
     }
-
+    // ROUND STATUS 1
+    else if(lobby.current_round.status == 1) {
+      startTimer();
+    }
     // startDrawing();
   }
 }
@@ -106,6 +109,15 @@ window.startGame = () => {
 
 window.selectWord = (id) => {
   axios.post('/api/round/word', {round: lobby.current_round.id, word: id});
+}
+
+window.startTimer = () => {
+  if(lobby.current_round.timeleft <= 0) return;
+  setTimeout(function () {
+    lobby.current_round.timeleft -= 1;
+    $('.game-time').html(`<i class="fa fa-clock-o">&nbsp;${lobby.current_round.timeleft}</i>`);
+    startTimer();
+  }, 1000);
 }
 
 window.startDrawing = () => {

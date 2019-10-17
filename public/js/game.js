@@ -144,7 +144,10 @@ window.updateGameStatus = function () {
       } else {
         $('.game-main .panel-body').html("\n          <div class=\"center\" style=\"margin-top:50px\">\n            <p class=\"code\"><span>".concat(lobby.current_round.drawer.name, "</span> is selecting a word...</p>\n          </div>\n          "));
       }
-    } // startDrawing();
+    } // ROUND STATUS 1
+    else if (lobby.current_round.status == 1) {
+        startTimer();
+      } // startDrawing();
 
   }
 };
@@ -158,6 +161,15 @@ window.selectWord = function (id) {
     round: lobby.current_round.id,
     word: id
   });
+};
+
+window.startTimer = function () {
+  if (lobby.current_round.timeleft <= 0) return;
+  setTimeout(function () {
+    lobby.current_round.timeleft -= 1;
+    $('.game-time').html("<i class=\"fa fa-clock-o\">&nbsp;".concat(lobby.current_round.timeleft, "</i>"));
+    startTimer();
+  }, 1000);
 };
 
 window.startDrawing = function () {
