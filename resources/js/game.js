@@ -73,8 +73,8 @@ window.updateGameStatus = () => {
         $('.game-main .panel-body').html(
           `
           <div class="center" style="margin-top:50px">
-            <p>Select a word</p>
-            <ul class="word-list"></ul>
+          <p>Select a word</p>
+          <ul class="word-list"></ul>
           </div>
           `
         )
@@ -89,7 +89,7 @@ window.updateGameStatus = () => {
         $('.game-main .panel-body').html(
           `
           <div class="center" style="margin-top:50px">
-            <p class="code"><span>${lobby.current_round.drawer.name}</span> is selecting a word...</p>
+          <p class="code"><span>${lobby.current_round.drawer.name}</span> is selecting a word...</p>
           </div>
           `
         )
@@ -98,8 +98,8 @@ window.updateGameStatus = () => {
     // ROUND STATUS 1
     else if(lobby.current_round.status == 1) {
       startTimer();
+      startDrawing();
     }
-    // startDrawing();
   }
 }
 
@@ -131,44 +131,49 @@ window.startDrawing = () => {
   ctx.lineJoin = 'round';
   ctx.lineCap = 'round';
   ctx.strokeStyle = 'blue';
-  var drawing = false;
 
-  canvas.addEventListener('mousemove', function(e) {
-    let x = e.pageX - this.offsetLeft;
-    let y = e.pageY - this.offsetTop;
-    if(drawing) {
-      channel.whisper('drawing.move', {x, y});
+  // ONLY DRAWER CAN DRAW
+  if(lobby.current_round.drawer.id == user.id) {
+    var drawing = false;
+
+    canvas.addEventListener('mousemove', function(e) {
+      let x = e.pageX - this.offsetLeft;
+      let y = e.pageY - this.offsetTop;
+      if(drawing) {
+        channel.whisper('drawing.move', {x, y});
+        paint(x, y)
+      }
+    }, false);
+
+    canvas.addEventListener('mousedown', function(e) {
+      let x = e.pageX - this.offsetLeft;
+      let y = e.pageY - this.offsetTop;
+      channel.whisper('drawing.start', {x, y});
+      ctx.beginPath();
+      ctx.moveTo(x, y);
       paint(x, y)
-    }
-  }, false);
+      drawing = true;
+    }, false);
 
-  canvas.addEventListener('mousedown', function(e) {
-    let x = e.pageX - this.offsetLeft;
-    let y = e.pageY - this.offsetTop;
-    channel.whisper('drawing.start', {x, y});
-    ctx.beginPath();
-    ctx.moveTo(x, y);
-    paint(x, y)
-    drawing = true;
-  }, false);
-
-  canvas.addEventListener('mouseup', function() {
-    drawing = false;
-  }, false);
+    canvas.addEventListener('mouseup', function() {
+      drawing = false;
+    }, false);
+  } else {
+    // OTHER PLAYERS LISTEN
+    channel.listenForWhisper('drawing.start', (data) => {
+      console.log(data);
+      ctx.beginPath();
+      ctx.moveTo(data.x, data.y);
+      paint(data.x, data.y)
+    })
+    channel.listenForWhisper('drawing.move', (data) => {
+      console.log(data);
+      paint(data.x, data.y)
+    })
+  }
 
   let paint = (x, y) => {
     ctx.lineTo(x, y);
     ctx.stroke();
   }
-
-  channel.listenForWhisper('drawing.start', (data) => {
-    console.log(data);
-    ctx.beginPath();
-    ctx.moveTo(data.x, data.y);
-    paint(data.x, data.y)
-  })
-  channel.listenForWhisper('drawing.move', (data) => {
-    console.log(data);
-    paint(data.x, data.y)
-  })
 }

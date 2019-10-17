@@ -133,7 +133,7 @@ window.updateGameStatus = function () {
 
     if (lobby.current_round.status == 0) {
       if (lobby.current_round.drawer.id == user.id) {
-        $('.game-main .panel-body').html("\n          <div class=\"center\" style=\"margin-top:50px\">\n            <p>Select a word</p>\n            <ul class=\"word-list\"></ul>\n          </div>\n          ");
+        $('.game-main .panel-body').html("\n          <div class=\"center\" style=\"margin-top:50px\">\n          <p>Select a word</p>\n          <ul class=\"word-list\"></ul>\n          </div>\n          ");
         axios.get('/api/word/get').then(function (res) {
           var words = res.data;
           words.forEach(function (word) {
@@ -142,13 +142,13 @@ window.updateGameStatus = function () {
           });
         });
       } else {
-        $('.game-main .panel-body').html("\n          <div class=\"center\" style=\"margin-top:50px\">\n            <p class=\"code\"><span>".concat(lobby.current_round.drawer.name, "</span> is selecting a word...</p>\n          </div>\n          "));
+        $('.game-main .panel-body').html("\n          <div class=\"center\" style=\"margin-top:50px\">\n          <p class=\"code\"><span>".concat(lobby.current_round.drawer.name, "</span> is selecting a word...</p>\n          </div>\n          "));
       }
     } // ROUND STATUS 1
     else if (lobby.current_round.status == 1) {
         startTimer();
-      } // startDrawing();
-
+        startDrawing();
+      }
   }
 };
 
@@ -182,51 +182,55 @@ window.startDrawing = function () {
   ctx.lineWidth = 5;
   ctx.lineJoin = 'round';
   ctx.lineCap = 'round';
-  ctx.strokeStyle = 'blue';
-  var drawing = false;
-  canvas.addEventListener('mousemove', function (e) {
-    var x = e.pageX - this.offsetLeft;
-    var y = e.pageY - this.offsetTop;
+  ctx.strokeStyle = 'blue'; // ONLY DRAWER CAN DRAW
 
-    if (drawing) {
-      channel.whisper('drawing.move', {
+  if (lobby.current_round.drawer.id == user.id) {
+    var drawing = false;
+    canvas.addEventListener('mousemove', function (e) {
+      var x = e.pageX - this.offsetLeft;
+      var y = e.pageY - this.offsetTop;
+
+      if (drawing) {
+        channel.whisper('drawing.move', {
+          x: x,
+          y: y
+        });
+        paint(x, y);
+      }
+    }, false);
+    canvas.addEventListener('mousedown', function (e) {
+      var x = e.pageX - this.offsetLeft;
+      var y = e.pageY - this.offsetTop;
+      channel.whisper('drawing.start', {
         x: x,
         y: y
       });
+      ctx.beginPath();
+      ctx.moveTo(x, y);
       paint(x, y);
-    }
-  }, false);
-  canvas.addEventListener('mousedown', function (e) {
-    var x = e.pageX - this.offsetLeft;
-    var y = e.pageY - this.offsetTop;
-    channel.whisper('drawing.start', {
-      x: x,
-      y: y
+      drawing = true;
+    }, false);
+    canvas.addEventListener('mouseup', function () {
+      drawing = false;
+    }, false);
+  } else {
+    // OTHER PLAYERS LISTEN
+    channel.listenForWhisper('drawing.start', function (data) {
+      console.log(data);
+      ctx.beginPath();
+      ctx.moveTo(data.x, data.y);
+      paint(data.x, data.y);
     });
-    ctx.beginPath();
-    ctx.moveTo(x, y);
-    paint(x, y);
-    drawing = true;
-  }, false);
-  canvas.addEventListener('mouseup', function () {
-    drawing = false;
-  }, false);
+    channel.listenForWhisper('drawing.move', function (data) {
+      console.log(data);
+      paint(data.x, data.y);
+    });
+  }
 
   var paint = function paint(x, y) {
     ctx.lineTo(x, y);
     ctx.stroke();
   };
-
-  channel.listenForWhisper('drawing.start', function (data) {
-    console.log(data);
-    ctx.beginPath();
-    ctx.moveTo(data.x, data.y);
-    paint(data.x, data.y);
-  });
-  channel.listenForWhisper('drawing.move', function (data) {
-    console.log(data);
-    paint(data.x, data.y);
-  });
 };
 
 /***/ }),
