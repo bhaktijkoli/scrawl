@@ -20,6 +20,8 @@ class CreateLobbiesTable extends Migration
       $table->integer('rounds')->nullable();
       $table->integer('status')->default(0);
       $table->integer('time')->nullable();
+      $table->string('current_word')->nullable();
+      $table->timestamp('current_endtime')->nullable();
       $table->enum('private', ['0', '1'])->default('0');
       $table->unsignedInteger('user_id')->nullable();
       $table->timestamps();

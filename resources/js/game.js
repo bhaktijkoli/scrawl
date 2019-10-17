@@ -1,6 +1,7 @@
 let code = $("#game").data('code');
 let lobby = null;
-window.Echo.channel(`${code}.new-player`).listen('NewPlayer', (data) => {
+let channel = window.Echo.channel(`game.${code}`)
+channel.listen('NewPlayer', (data) => {
   let player = data.player;
   lobby.players.push(player);
   $('.players-list').append(
@@ -12,6 +13,10 @@ window.Echo.channel(`${code}.new-player`).listen('NewPlayer', (data) => {
     `
   );
   $('.player-count').text(`${lobby.players.length}/5`);
+});
+channel.listen('NewRound', (data) => {
+  lobby.status = data.round;
+  updateGameStatus();
 });
 
 axios.get('/api/game/'+code).then(res => {
@@ -46,8 +51,4 @@ window.updateGameStatus = () => {
 
   window.startGame = () => {
     axios.post('/api/game/'+lobby.code+'/start')
-    .then(res => {
-      lobby.status = 1;
-      updateGameStatus();
-    })
   }

@@ -10,22 +10,20 @@ use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 
-class NewPlayer implements ShouldBroadcast
+class NewRound implements ShouldBroadcast
 {
   use Dispatchable, InteractsWithSockets, SerializesModels;
 
   public $lobby;
-  public $player;
 
   /**
   * Create a new event instance.
   *
   * @return void
   */
-  public function __construct($lobby, $player)
+  public function __construct($lobby)
   {
     $this->lobby = $lobby;
-    $this->player = $player;
   }
 
   /**
@@ -46,6 +44,6 @@ class NewPlayer implements ShouldBroadcast
   */
   public function broadcastWith()
   {
-    return ['player' => $this->player];
+    return ['round' => $this->lobby->status];
   }
 }

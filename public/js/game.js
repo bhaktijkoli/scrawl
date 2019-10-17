@@ -95,11 +95,16 @@
 
 var code = $("#game").data('code');
 var lobby = null;
-window.Echo.channel("".concat(code, ".new-player")).listen('NewPlayer', function (data) {
+var channel = window.Echo.channel("game.".concat(code));
+channel.listen('NewPlayer', function (data) {
   var player = data.player;
   lobby.players.push(player);
   $('.players-list').append("\n    <li>\n    <img src=\"".concat(player.avatar, "\" alt=\"\">\n    <p>").concat(player.name, "</p>\n    </li>\n    "));
   $('.player-count').text("".concat(lobby.players.length, "/5"));
+});
+channel.listen('NewRound', function (data) {
+  lobby.status = data.round;
+  updateGameStatus();
 });
 axios.get('/api/game/' + code).then(function (res) {
   lobby = res.data.data;
@@ -117,10 +122,7 @@ window.updateGameStatus = function () {
 };
 
 window.startGame = function () {
-  axios.post('/api/game/' + lobby.code + '/start').then(function (res) {
-    lobby.status = 1;
-    updateGameStatus();
-  });
+  axios.post('/api/game/' + lobby.code + '/start');
 };
 
 /***/ }),
