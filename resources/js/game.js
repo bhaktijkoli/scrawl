@@ -28,6 +28,10 @@ channel.listen('UpdateRound', (data) => {
 channel.listen('EndRound', (data) => {
   alert("ROUND END");
 });
+channel.listen('NewMessage', (data) => {
+  alert("NEW MESSAGE");
+  console.log(data);
+});
 
 axios.get('/api/user').then(res => {
   user = res.data;
@@ -37,6 +41,12 @@ axios.get('/api/user').then(res => {
   });
 })
 
+$('#chat-input').keypress(function(event){
+	var keycode = (event.keyCode ? event.keyCode : event.which);
+	if(keycode == '13') {
+    axios.post('/api/chat/add', {lobby: lobby.id, message: $('#chat-input').val()})
+  }
+});
 
 
 window.updateGameStatus = () => {

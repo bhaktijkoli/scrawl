@@ -30,7 +30,7 @@
         </div>
       </div>
       <div class="col-sm-3">
-        <div class="panel game-panel">
+        <div class="panel game-panel game-chat">
           <div class="panel-title">
             Chat
           </div>
@@ -39,7 +39,7 @@
 
             </div>
             <div class="chat-input">
-              <input class="input"/>
+              <input id="chat-input" class="input"/>
             </div>
           </div>
         </div>

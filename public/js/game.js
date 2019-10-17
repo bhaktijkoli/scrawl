@@ -115,12 +115,26 @@ channel.listen('UpdateRound', function (data) {
 channel.listen('EndRound', function (data) {
   alert("ROUND END");
 });
+channel.listen('NewMessage', function (data) {
+  alert("NEW MESSAGE");
+  console.log(data);
+});
 axios.get('/api/user').then(function (res) {
   user = res.data;
   axios.get('/api/game/' + code).then(function (res) {
     lobby = res.data.data;
     updateGameStatus();
   });
+});
+$('#chat-input').keypress(function (event) {
+  var keycode = event.keyCode ? event.keyCode : event.which;
+
+  if (keycode == '13') {
+    axios.post('/api/chat/add', {
+      lobby: lobby.id,
+      message: $('#chat-input').val()
+    });
+  }
 });
 
 window.updateGameStatus = function () {
