@@ -22412,7 +22412,7 @@ window.Echo = new laravel_echo__WEBPACK_IMPORTED_MODULE_0__["default"]({
   broadcaster: 'pusher',
   encrypted: false,
   key: "LK6Y42a6bwykqB16bIzN6L78I",
-  wsHost: window.location.hostname,
+  wsHost: window.location.hostname.endsWith('test') ? window.location.hostname : "socket." + window.location.hostname,
   wsPort: 6001,
   disableStats: true
 });

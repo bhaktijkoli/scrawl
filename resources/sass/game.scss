@@ -24,7 +24,7 @@
   margin-left: 5px;
 }
 
-.game-panel .panel-body {
+#game .panel-body {
   min-height: 550px;
 }
 
@@ -53,4 +53,18 @@
 #sketch {
   width: 100%;
   height: 500px;
+}
+
+// CHAT
+.chats {
+  margin-bottom: 20px;
+  background: red;
+}
+.chat-input {
+  position: absolute;
+  bottom: 0px;
+  left: 0px;
+  input {
+    width: 100%;
+  }
 }

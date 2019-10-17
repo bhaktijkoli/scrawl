@@ -18,7 +18,7 @@ window.Echo = new Echo({
     broadcaster: 'pusher',
     encrypted: false,
     key: process.env.MIX_PUSHER_APP_KEY,
-    wsHost: window.location.hostname,
+    wsHost: window.location.hostname.endsWith('test')?window.location.hostname:"socket."+window.location.hostname,
     wsPort: 6001,
     disableStats: true,
 });

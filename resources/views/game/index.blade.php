@@ -6,7 +6,7 @@
 @endsection
 @section('content')
   <div id="game" class="container-fluid" data-code="{{$lobby->code}}">
-    <div class="row" style="margin-top:80px;">
+    <div class="row" style="margin-top:50px;">
       <div class="col-sm-3">
         <div class="panel game-panel">
           <div class="panel-title">
@@ -33,6 +33,14 @@
         <div class="panel game-panel">
           <div class="panel-title">
             Chat
+          </div>
+          <div class="panel-body">
+            <div class="chats">
+
+            </div>
+            <div class="chat-input">
+              <input class="input"/>
+            </div>
           </div>
         </div>
       </div>
