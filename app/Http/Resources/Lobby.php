@@ -24,6 +24,7 @@ class Lobby extends JsonResource
         'name' => $player->user->name,
         'avatar' => $player->user->avatar,
         'points' => $player->points,
+        'correct' => $player->correct,
       ];
       array_push($players, $data);
     }

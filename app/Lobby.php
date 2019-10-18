@@ -4,6 +4,8 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
+use App\LobbyPlayer;
+
 class Lobby extends Model
 {
   public function players()
@@ -19,5 +21,14 @@ class Lobby extends Model
   public function rounds()
   {
     return $this->hasMany('App\Round', 'lobby_id');
+  }
+
+  public function setCorrect()
+  {
+    $lobbyPlayers = LobbyPlayer::where('lobby_id', $this->id)->get();
+    foreach ($lobbyPlayers as $player) {
+      $player->correct = '0';
+      $player->save();
+    }
   }
 }

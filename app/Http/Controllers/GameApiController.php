@@ -23,6 +23,7 @@ class GameApiController extends Controller
   {
     $lobby = Lobby::where('code', $code)->first();
     $lobby->status = '1';
+    $lobby->setCorrect();
     $round = new Round();
     $round->lobby_id = $lobby->id;
     $round->drawer_id = Auth::user()->id;

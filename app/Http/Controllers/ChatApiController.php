@@ -19,14 +19,16 @@ class ChatApiController extends Controller
     if(!$lobby) abort(404);
     $message = $request->input('message');
     if($message == $lobby->current_round->word) {
+      $player = LobbyPlayer::where('lobby_id', $lobby->id)->where('user_id', Auth::user()->id)->first();
+      if($player->correct == 1) return "Ok";
       $data = [
         'type' => 'notification',
         'user_name' => Auth::user()->name,
         'user_id' => Auth::user()->id,
         'body' => Auth::user()->name . ' has guessed the word correctly.',
       ];
-      $player = LobbyPlayer::where('lobby_id', $lobby->id)->where('user_id', Auth::user()->id)->first();
       $player->points = (int) $player->points + (int) $lobby->current_round->getTimeLeft();
+      $player->correct = '1';
       $player->save();
       event(new UpdateRound($lobby));
     } else {

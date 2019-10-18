@@ -17,7 +17,7 @@ class CreateLobbyPlayersTable extends Migration
       $table->bigIncrements('id');
       $table->integer('rounds')->default('0');
       $table->integer('points')->default('0');
-      $table->enum('chat', [0, 1])->default('0');
+      $table->enum('correct', [0, 1])->default('0');
       $table->unsignedInteger('user_id')->nullable();
       $table->unsignedInteger('lobby_id')->nullable();
       $table->timestamps();
