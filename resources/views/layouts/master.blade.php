@@ -21,5 +21,15 @@
   @yield('content')
   <script type="text/javascript" src="{{ asset('js/app.js') }}"></script>
   @yield('post')
+  @if (env('GOOGLE_ANALYTICS', false) == true)
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-150368103-1"></script>
+    <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'UA-150368103-1');
+  </script>
+@endif
 </body>
 </html>
