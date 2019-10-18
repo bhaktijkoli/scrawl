@@ -123,6 +123,23 @@ window.updateGameStatus = () => {
       startTimer();
       startDrawing();
     }
+    // ROUND STATUS 2
+    else if(lobby.current_round.status == 2) {
+      $('.game-main .panel-body').html(
+        `
+        <div class="center" style="margin-top:50px">
+        <h3>Round has ended</h3>
+        <p>Final Scores</p>
+        <table class="final-points">
+        </table>
+        </div>
+        `
+      );
+      lobby.players.forEach(player => {
+        $('.final-points').append( `<tr><td class="player-name">${player.name}</td><td class="player-points">${player.points}</td> </tr>` );
+      });
+      $('.game-main .panel-body').append(`<h3 class="center">New Round will begin soon</h3>`)
+    }
   }
 }
 

@@ -177,7 +177,14 @@ window.updateGameStatus = function () {
     else if (lobby.current_round.status == 1) {
         startTimer();
         startDrawing();
-      }
+      } // ROUND STATUS 2
+      else if (lobby.current_round.status == 2) {
+          $('.game-main .panel-body').html("\n        <div class=\"center\" style=\"margin-top:50px\">\n        <h3>Round has ended</h3>\n        <p>Final Scores</p>\n        <table class=\"final-points\">\n        </table>\n        </div>\n        ");
+          lobby.players.forEach(function (player) {
+            $('.final-points').append("<tr><td class=\"player-name\">".concat(player.name, "</td><td class=\"player-points\">").concat(player.points, "</td> </tr>"));
+          });
+          $('.game-main .panel-body').append("<h3 class=\"center\">New Round will begin soon</h3>");
+        }
   }
 };
 

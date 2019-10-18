@@ -477,3 +477,19 @@ body {
   width: 100%;
 }
 
+.final-points {
+  width: 50%;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.final-points .player-name {
+  text-align: left;
+  font-size: 1.5rem;
+}
+
+.final-points .player-points {
+  text-align: right;
+  font-size: 1.5rem;
+}
+
