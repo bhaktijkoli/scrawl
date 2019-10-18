@@ -10,6 +10,8 @@ use App\Round;
 use App\Http\Resources\Lobby as LobbyResource;
 use Carbon\Carbon;
 
+use App\Jobs\RoundNewJob;
+
 use Auth;
 
 class GameApiController extends Controller
@@ -31,5 +33,6 @@ class GameApiController extends Controller
     $lobby->current_round_id = $round->id;
     $lobby->save();
     event(new NewRound($lobby));
+    return "Ok";
   }
 }

@@ -36,6 +36,7 @@ class Lobby extends JsonResource
       'max_time' => $this->max_time,
       'status' => $this->status,
       'players' => $players,
+      'total_rounds' => $this->rounds->count(),
       'current_round' => new Round($this->current_round),
     ];
   }

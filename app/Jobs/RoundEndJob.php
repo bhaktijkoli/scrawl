@@ -10,6 +10,8 @@ use Illuminate\Foundation\Bus\Dispatchable;
 
 use App\Events\EndRound;
 
+use App\Jobs\RoundNewJob;
+
 class RoundEndJob implements ShouldQueue
 {
   use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
@@ -34,8 +36,14 @@ class RoundEndJob implements ShouldQueue
   */
   public function handle()
   {
+    if($this->round->lobby->current_round_id != $this->round->id) return;
     $this->round->status = '2';
     $this->round->save();
-    event(new EndRound($this->round->lobby));
+    $lobby = App\Lobby::find($this->round->lobby_id);
+    event(new EndRound($lobby));
+    if($lobby->rounds->count() == $lobby->max_rounds) {
+      return;
+    }
+    RoundNewJob::dispatch($lobby)->delay(now()->addSeconds(5));
   }
 }

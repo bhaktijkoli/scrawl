@@ -110,11 +110,15 @@ channel.listen('NewRound', function (data) {
 });
 channel.listen('UpdateRound', function (data) {
   lobby = data.lobby;
+  console.log(lobby);
   updateGameStatus();
   updatePlayers();
 });
 channel.listen('EndRound', function (data) {
-  alert("ROUND END");
+  lobby = data.lobby;
+  console.log(lobby);
+  updateGameStatus();
+  updatePlayers();
 });
 channel.listen('NewMessage', function (data) {
   var message = data.message;
@@ -133,7 +137,6 @@ axios.get('/api/user').then(function (res) {
   user = res.data;
   axios.get('/api/game/' + code).then(function (res) {
     lobby = res.data.data;
-    console.log(lobby);
     updateGameStatus();
     updatePlayers();
   });
@@ -158,7 +161,7 @@ window.updateGameStatus = function () {
     $('.game-main').html("\n      <div class=\"invite center\">\n      <p>Invite your friends</p>\n      <p class=\"code\">".concat(lobby.code, "</p>\n      <button class=\"btn\" onclick=\"startGame()\">Start Game</button>\n      </div>\n      "));
   } else {
     // GAME STATUS 1
-    $('.game-main').html("\n      <div class=\"panel-title\">\n      <span class=\"game-time\"><i class=\"fa fa-clock-o\">&nbsp;".concat(lobby.current_round.timeleft, "</i></span>\n      <span class=\"game-round\">Round ").concat(lobby.status, "/").concat(lobby.max_rounds, "</i></span>\n      </div>\n      <div class=\"panel-body\">\n      <div id=\"sketch\">\n      <canvas id=\"paint\"></canvas>\n      </div>\n      </div>\n      ")); // ROUND STATUS 0
+    $('.game-main').html("\n      <div class=\"panel-title\">\n      <span class=\"game-time\"><i class=\"fa fa-clock-o\">&nbsp;".concat(lobby.current_round.timeleft, "</i></span>\n      <span class=\"game-round\">Round ").concat(lobby.total_rounds, "/").concat(lobby.max_rounds, "</i></span>\n      </div>\n      <div class=\"panel-body\">\n      <div id=\"sketch\">\n      <canvas id=\"paint\"></canvas>\n      </div>\n      </div>\n      ")); // ROUND STATUS 0
 
     if (lobby.current_round.status == 0) {
       if (lobby.current_round.drawer.id == user.id) {
@@ -211,7 +214,7 @@ window.startTimer = function () {
   if (lobby.current_round.timeleft <= 0) return;
   setTimeout(function () {
     lobby.current_round.timeleft -= 1;
-    $('.game-time').html("<i class=\"fa fa-clock-o\">&nbsp;".concat(lobby.current_round.timeleft, "</i>"));
+    $('.game-time').html("<i class=\"fa fa-clock-o\">&nbsp;".concat(lobby.current_round.timeleft + 1, "</i>"));
     startTimer();
   }, 1000);
 };

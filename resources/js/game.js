@@ -23,11 +23,15 @@ channel.listen('NewRound', (data) => {
 });
 channel.listen('UpdateRound', (data) => {
   lobby = data.lobby;
+  console.log(lobby);
   updateGameStatus();
   updatePlayers();
 });
 channel.listen('EndRound', (data) => {
-  alert("ROUND END");
+  lobby = data.lobby;
+  console.log(lobby);
+  updateGameStatus();
+  updatePlayers();
 });
 channel.listen('NewMessage', (data) => {
   let message = data.message;
@@ -45,7 +49,6 @@ axios.get('/api/user').then(res => {
   user = res.data;
   axios.get('/api/game/'+code).then(res => {
     lobby = res.data.data;
-    console.log(lobby);
     updateGameStatus();
     updatePlayers();
   });
@@ -78,7 +81,7 @@ window.updateGameStatus = () => {
     $('.game-main').html(`
       <div class="panel-title">
       <span class="game-time"><i class="fa fa-clock-o">&nbsp;${lobby.current_round.timeleft}</i></span>
-      <span class="game-round">Round ${lobby.status}/${lobby.max_rounds}</i></span>
+      <span class="game-round">Round ${lobby.total_rounds}/${lobby.max_rounds}</i></span>
       </div>
       <div class="panel-body">
       <div id="sketch">
@@ -171,7 +174,7 @@ window.startTimer = () => {
   if(lobby.current_round.timeleft <= 0) return;
   setTimeout(function () {
     lobby.current_round.timeleft -= 1;
-    $('.game-time').html(`<i class="fa fa-clock-o">&nbsp;${lobby.current_round.timeleft}</i>`);
+    $('.game-time').html(`<i class="fa fa-clock-o">&nbsp;${lobby.current_round.timeleft+1}</i>`);
     startTimer();
   }, 1000);
 }
