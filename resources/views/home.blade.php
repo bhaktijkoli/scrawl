@@ -14,8 +14,7 @@
         <div class="col-sm-4 col-sm-offset-2">
           <div class="app-intro-text">
             <h1 class="app-title">SCRAWL</h1>
-            <p class="app-subtitle">Free Online Multiplayer Pictionary Game</p>
-            <p class="app-description">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+            <p class="app-subtitle">Free Online Multiplayer Word-guessing Game</p>
             <a class="btn-intro" href="{{route('login')}}">Play Now</a>
           </div>
         </div>

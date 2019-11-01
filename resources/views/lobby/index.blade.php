@@ -8,11 +8,11 @@
   <div class="container">
     <div class="row" style="margin-top:130px;">
       <div class="col-sm-8">
-        <div class="panel">
+        {{-- <div class="panel">
           <div class="panel-title">
             Public Lobbies
           </div>
-        </div>
+        </div> --}}
         <div class="panel">
           <div class="panel-title">
             Private Lobby
